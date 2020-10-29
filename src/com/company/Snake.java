@@ -3,10 +3,10 @@ package com.company;
 import java.util.ArrayList;
 
 public class Snake {
-  private Cell head;
-  private Cell tail;
   private final ArrayList<Cell> bodyParts = new ArrayList<>();
   private final Board board;
+  private Cell head;
+  private Cell tail;
   private Direction direction = Direction.EAST;
 
   public Snake(Board board) {
@@ -25,15 +25,13 @@ public class Snake {
   }
 
   private void initializeSnakeHead() {
-    this.head = this.board.getCell(0 , 2);
-    this.head.setType(CellType.HEAD);
-    this.head.setDirection(this.direction);
+    this.head = this.board.getCell(0, 2);
+    updateCell(this.head, CellType.HEAD, this.direction);
   }
 
   private void initializeSnakeBody() {
     Cell body = this.board.getCell(0, 1);
-    body.setType(CellType.BODY);
-    body.setDirection(this.direction);
+    updateCell(body, CellType.BODY, this.direction);
     this.bodyParts.add(body);
   }
 
@@ -59,8 +57,7 @@ public class Snake {
     int cellCol = cell.getCol();
     Direction dir = cell.getDirection();
 
-    cell.setType(CellType.EMPTY);
-    cell.setDirection(Direction.NONE);
+    updateCell(cell, CellType.EMPTY, Direction.NONE);
 
     switch (dir) {
       case NORTH:
@@ -90,8 +87,7 @@ public class Snake {
           Game.setIsGameOver(true);
         }
       }
-      newCell.setType(type);
-      newCell.setDirection(dir);
+      updateCell(newCell, type, dir);
       return newCell;
     } else {
       System.out.println("Out of bounds. Game over.");
@@ -117,16 +113,24 @@ public class Snake {
 
   private boolean isCollision(Cell cell) {
     if (cell.getType() == CellType.FRUIT) {
-      Game.setScore(Game.getScore() + 10);
-
-      this.bodyParts.add(this.tail);
-      this.board.generateFruit();
-
+      this.eatFruit();
       return false;
     } else return cell.getType() != CellType.EMPTY;
   }
 
   private boolean isOutOfBounds(int row, int col) {
     return row == this.board.getRowCount() || col == this.board.getColCount() || row == -1 || col == -1;
+  }
+
+  private void eatFruit() {
+    Game.setScore(Game.getScore() + 10);
+
+    this.bodyParts.add(this.tail);
+    this.board.generateFruit();
+  }
+
+  private void updateCell(Cell cell, CellType type, Direction direction) {
+    cell.setType(type);
+    cell.setDirection(direction);
   }
 }
