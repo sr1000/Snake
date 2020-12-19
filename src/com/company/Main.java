@@ -14,7 +14,7 @@ public class Main {
     board.generateFruit();
     printScoreAndBoard(board);
 
-    while (!Game.getIsGameOver()) {
+    while (!GameState.getIsGameOver()) {
       direction = getUserInput();
 
       if (direction == null) {
@@ -46,7 +46,7 @@ public class Main {
   }
 
   public static void printScoreAndBoard(Board board) {
-    System.out.println("Score: " + Game.getScore());
+    System.out.println("Score: " + GameState.getScore());
     board.printBoard();
   }
 }

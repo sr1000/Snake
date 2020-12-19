@@ -84,14 +84,14 @@ public class Snake {
           newCell.setType(CellType.HEAD);
         } else {
           System.out.println("Collision! Game over.");
-          Game.setIsGameOver(true);
+          GameState.setIsGameOver(true);
         }
       }
       updateCell(newCell, type, dir);
       return newCell;
     } else {
       System.out.println("Out of bounds. Game over.");
-      Game.setIsGameOver(true);
+      GameState.setIsGameOver(true);
     }
     return null;
   }
@@ -113,9 +113,11 @@ public class Snake {
 
   private boolean isCollision(Cell cell) {
     if (cell.getType() == CellType.FRUIT) {
-      this.eatFruit();
-      return false;
-    } else return cell.getType() != CellType.EMPTY;
+        this.eatFruit();
+        return false;
+    } else {
+        return cell.getType() != CellType.EMPTY;
+    }
   }
 
   private boolean isOutOfBounds(int row, int col) {
@@ -123,7 +125,7 @@ public class Snake {
   }
 
   private void eatFruit() {
-    Game.setScore(Game.getScore() + 10);
+    GameState.setScore(GameState.getScore() + 10);
 
     this.bodyParts.add(this.tail);
     this.board.generateFruit();

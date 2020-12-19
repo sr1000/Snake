@@ -1,6 +1,6 @@
 package com.company;
 
-public final class Game {
+public final class GameState {
   private static int score = 0;
   private static boolean isGameOver = false;
 
@@ -9,7 +9,7 @@ public final class Game {
   }
 
   public static void setScore(int score) {
-    Game.score = score;
+    GameState.score = score;
   }
 
   public static boolean getIsGameOver() {
@@ -17,6 +17,6 @@ public final class Game {
   }
 
   public static void setIsGameOver(boolean isGameOver) {
-    Game.isGameOver = isGameOver;
+    GameState.isGameOver = isGameOver;
   }
 }
