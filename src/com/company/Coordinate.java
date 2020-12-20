@@ -1,10 +1,10 @@
 package com.company;
 
-public class Direction {
+public class Coordinate {
   private int x;
   private int y;
 
-  public Direction(int x, int y) {
+  public Coordinate(int x, int y) {
     this.x = x;
     this.y = y;
   }
@@ -23,5 +23,9 @@ public class Direction {
 
   public void setY(int y) {
     this.y = y;
+  }
+
+  public Coordinate move(Direction dir) {
+    return new Coordinate(this.x + dir.getX(), this.y + dir.getY());
   }
 }

@@ -1,5 +1,9 @@
 package com.company;
 
+import com.company.gameObjects.SnakeBody;
+import com.company.gameObjects.SnakeHead;
+import com.company.gameObjects.Teleporter;
+
 import java.io.IOException;
 
 public class Main {
@@ -9,44 +13,50 @@ public class Main {
     int rowCount = 10;
     int colCount = 20;
     Board board = new Board(rowCount, colCount);
-    Snake snake = new Snake(board);
+    Teleporter teleporter = new Teleporter(new Coordinate(8, 8));
+    board.addGameObject(teleporter);
+    SnakeHead snakeHead = new SnakeHead(new Coordinate(5, 5), new Direction(1, 0));
+    board.addGameObject(snakeHead);
+    snakeHead.extend(new SnakeBody(new Coordinate(5, 6)));
+    snakeHead.extend();
+    snakeHead.extend();
 
     board.generateFruit();
     printScoreAndBoard(board);
 
-    while (!GameState.getIsGameOver()) {
+    while (!GameState.getInstance().getIsGameOver()) {
       direction = getUserInput();
 
       if (direction == null) {
         continue;
       }
 
-      snake.setDirection(direction);
-      snake.updateSnakeBodyPartsDirections();
-      snake.moveSnake();
+      snakeHead.setDirection(direction);
+      snakeHead.move();
 
+      board.update();
       printScoreAndBoard(board);
     }
   }
 
   public static Direction getUserInput() throws IOException {
     System.out.println("Enter a direction (WASD) and press enter: ");
-    int userInput = System.in.read();
-    if (userInput == 68 || userInput == 100) {
-      return Direction.EAST;
-    } else if (userInput == 65 || userInput == 97) {
-      return Direction.WEST;
-    } else if (userInput == 119 || userInput == 87) {
-      return Direction.NORTH;
-    } else if (userInput == 115 || userInput == 83) {
-      return Direction.SOUTH;
+    char userInput = (char) Character.toLowerCase(System.in.read());
+    if (userInput == 'w') {
+      return new Direction(0, -1);
+    } else if (userInput == 'a') {
+      return new Direction(-1, 0);
+    } else if (userInput == 's') {
+      return new Direction(0, 1);
+    } else if (userInput == 'd') {
+      return new Direction(1, 0);
     } else {
       return null;
     }
   }
 
   public static void printScoreAndBoard(Board board) {
-    System.out.println("Score: " + GameState.getScore());
+    System.out.println("Score: " + GameState.getInstance().getScore());
     board.printBoard();
   }
 }

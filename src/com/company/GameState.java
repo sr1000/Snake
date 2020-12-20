@@ -1,22 +1,33 @@
 package com.company;
 
 public final class GameState {
-  private static int score = 0;
-  private static boolean isGameOver = false;
+  private int score = 0;
+  private boolean isGameOver = false;
+  private static GameState instance;
 
-  public static int getScore() {
+  private GameState() {
+  }
+
+  public synchronized static GameState getInstance() {
+    if (instance == null) {
+      instance = new GameState();
+    }
+    return instance;
+  }
+
+  public int getScore() {
     return score;
   }
 
-  public static void setScore(int score) {
-    GameState.score = score;
+  public void setScore(int score) {
+    this.score = score;
   }
 
-  public static boolean getIsGameOver() {
+  public boolean getIsGameOver() {
     return isGameOver;
   }
 
-  public static void setIsGameOver(boolean isGameOver) {
-    GameState.isGameOver = isGameOver;
+  public void setIsGameOver(boolean isGameOver) {
+    this.isGameOver = isGameOver;
   }
 }
