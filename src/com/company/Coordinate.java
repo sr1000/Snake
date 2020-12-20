@@ -25,7 +25,7 @@ public class Coordinate {
     this.y = y;
   }
 
-  public Coordinate move(Direction dir) {
-    return new Coordinate(this.x + dir.getX(), this.y + dir.getY());
+  public Coordinate move(Direction direction) {
+    return new Coordinate(x + direction.getX(), y + direction.getY());
   }
 }

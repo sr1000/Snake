@@ -7,8 +7,8 @@ import com.company.GameState;
 public class SnakeBody extends GameObject {
   private SnakeBody nextPart;
 
-  public SnakeBody(Coordinate coord) {
-    super(coord);
+  public SnakeBody(Coordinate coordinate) {
+    super(coordinate);
   }
 
   @Override
@@ -25,16 +25,16 @@ public class SnakeBody extends GameObject {
 
   public void move(Coordinate coordinate) {
     if (nextPart != null) {
-      nextPart.move(this.getCoord());
+      nextPart.move(getCoordinate());
     }
-    this.setCoord(coordinate);
+    setCoordinate(coordinate);
   }
 
   protected void extend() {
     if (nextPart != null) {
       nextPart.extend();
     } else {
-      nextPart = (SnakeBody) getBoard().addGameObject(new SnakeBody(this.getCoord()));
+      nextPart = (SnakeBody) getBoard().addGameObject(new SnakeBody(getCoordinate()));
     }
   }
 

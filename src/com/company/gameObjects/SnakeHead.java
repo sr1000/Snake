@@ -6,8 +6,8 @@ import com.company.Direction;
 public class SnakeHead extends SnakeBody implements Extendable {
   private Direction direction;
 
-  public SnakeHead(Coordinate coord, Direction direction) {
-    super(coord);
+  public SnakeHead(Coordinate coordinate, Direction direction) {
+    super(coordinate);
     this.direction = direction;
   }
 
@@ -30,6 +30,6 @@ public class SnakeHead extends SnakeBody implements Extendable {
   }
 
   public void move() {
-    super.move(this.getCoord().move(direction));
+    super.move(getCoordinate().move(direction));
   }
 }

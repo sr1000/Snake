@@ -1,7 +1,7 @@
 package com.company;
 
 import com.company.gameObjects.Edge;
-import com.company.gameObjects.Food;
+import com.company.gameObjects.Fruit;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,10 +21,10 @@ public class Board {
   }
 
   public void generateFruit() {
-    int fruitCol = ThreadLocalRandom.current().nextInt(1, this.colCount);
-    int fruitRow = ThreadLocalRandom.current().nextInt(1, this.rowCount);
+    int fruitCol = ThreadLocalRandom.current().nextInt(1, colCount);
+    int fruitRow = ThreadLocalRandom.current().nextInt(1, rowCount);
 
-    addGameObject(new Food(new Coordinate(fruitCol, fruitRow)));
+    addGameObject(new Fruit(new Coordinate(fruitCol, fruitRow)));
   }
 
   public int getRowCount() {
@@ -35,12 +35,13 @@ public class Board {
     return colCount;
   }
 
-  public void printBoard() {
+  public void printScoreAndBoard() {
+    System.out.println("Score: " + GameState.getInstance().getScore());
     for (int i = 0; i < rowCount; i++) {
       for (int j = 0; j < colCount; j++) {
         boolean isPrinted = false;
         for (GameObject gameObject : grid) {
-          if (gameObject.getCoord().getY() == i && gameObject.getCoord().getX() == j) {
+          if (gameObject.getCoordinate().getX() == j && gameObject.getCoordinate().getY() == i) {
             System.out.print(gameObject.getDisplay());
             isPrinted = true;
             break;
@@ -55,9 +56,9 @@ public class Board {
   }
 
   public void update() {
-    List<GameObject> grid2 = new ArrayList<>(grid);
-    for (GameObject outer : grid2) {
-      for (GameObject inner : grid2) {
+    List<GameObject> gridCopy = new ArrayList<>(grid);
+    for (GameObject outer : gridCopy) {
+      for (GameObject inner : gridCopy) {
         if (outer == inner) {
           continue;
         }
@@ -72,15 +73,15 @@ public class Board {
   }
 
   private boolean isOutOfBounds(GameObject gameObject) {
-    return gameObject.getCoord().getX() >= this.getColCount()
-            || gameObject.getCoord().getY() >= this.getRowCount()
-            || gameObject.getCoord().getX() <= -1
-            || gameObject.getCoord().getY() <= -1;
+    return gameObject.getCoordinate().getX() >= getColCount()
+            || gameObject.getCoordinate().getY() >= getRowCount()
+            || gameObject.getCoordinate().getX() <= -1
+            || gameObject.getCoordinate().getY() <= -1;
   }
 
   public GameObject addGameObject(GameObject gameObject) {
     gameObject.setBoard(this);
-    this.grid.add(gameObject);
+    grid.add(gameObject);
     return gameObject;
   }
 

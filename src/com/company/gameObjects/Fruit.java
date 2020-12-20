@@ -2,17 +2,19 @@ package com.company.gameObjects;
 
 import com.company.Coordinate;
 import com.company.GameObject;
+import com.company.GameState;
 
-public class Food extends GameObject {
+public class Fruit extends GameObject {
 
-  public Food(Coordinate coord) {
-    super(coord);
+  public Fruit(Coordinate coordinate) {
+    super(coordinate);
   }
 
   public void collide(GameObject gameObject) {
     if (gameObject instanceof Extendable) {
       Extendable ext = (Extendable) gameObject;
       ext.extend();
+      GameState.getInstance().addScore(10);
       getBoard().generateFruit();
       getBoard().removeGameObject(this);
     }

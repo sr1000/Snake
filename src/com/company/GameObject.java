@@ -4,16 +4,16 @@ public abstract class GameObject {
   private Coordinate coordinate;
   private Board board;
 
-  public GameObject(Coordinate coord) {
-    this.coordinate = coord;
+  public GameObject(Coordinate coordinate) {
+    this.coordinate = coordinate;
   }
 
-  public Coordinate getCoord() {
+  public Coordinate getCoordinate() {
     return coordinate;
   }
 
-  public void setCoord(Coordinate coord) {
-    this.coordinate = coord;
+  public void setCoordinate(Coordinate coordinate) {
+    this.coordinate = coordinate;
   }
 
   public Board getBoard() {
@@ -25,7 +25,7 @@ public abstract class GameObject {
   }
 
   public boolean checkCollision(GameObject gameObject) {
-    return this.coordinate.getX() == gameObject.getCoord().getX() && this.coordinate.getY() == gameObject.getCoord().getY();
+    return coordinate.getX() == gameObject.getCoordinate().getX() && coordinate.getY() == gameObject.getCoordinate().getY();
   }
 
   public abstract void collide(GameObject gameObject);

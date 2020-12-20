@@ -1,8 +1,8 @@
 package com.company;
 
+import com.company.gameObjects.Constants;
 import com.company.gameObjects.SnakeBody;
 import com.company.gameObjects.SnakeHead;
-import com.company.gameObjects.Teleporter;
 
 import java.io.IOException;
 
@@ -10,22 +10,14 @@ public class Main {
 
   public static void main(String[] args) throws IOException {
     Direction direction;
-    int rowCount = 10;
-    int colCount = 20;
-    Board board = new Board(rowCount, colCount);
-    Teleporter teleporter = new Teleporter(new Coordinate(8, 8));
-    board.addGameObject(teleporter);
-    SnakeHead snakeHead = new SnakeHead(new Coordinate(5, 5), new Direction(1, 0));
-    board.addGameObject(snakeHead);
-    snakeHead.extend(new SnakeBody(new Coordinate(5, 6)));
-    snakeHead.extend();
-    snakeHead.extend();
+    UserInput userInput = new UserInput();
+    Board board = new Board(Constants.ROW_COUNT, Constants.COL_COUNT);
+    SnakeHead snakeHead = new SnakeHead(new Coordinate(Constants.STARTING_ROW, Constants.STARTING_COL), new Direction(1, 0));
 
-    board.generateFruit();
-    printScoreAndBoard(board);
+    startGame(board, snakeHead);
 
     while (!GameState.getInstance().getIsGameOver()) {
-      direction = getUserInput();
+      direction = userInput.getNewDirection();
 
       if (direction == null) {
         continue;
@@ -35,28 +27,15 @@ public class Main {
       snakeHead.move();
 
       board.update();
-      printScoreAndBoard(board);
+      board.printScoreAndBoard();
     }
   }
 
-  public static Direction getUserInput() throws IOException {
-    System.out.println("Enter a direction (WASD) and press enter: ");
-    char userInput = (char) Character.toLowerCase(System.in.read());
-    if (userInput == 'w') {
-      return new Direction(0, -1);
-    } else if (userInput == 'a') {
-      return new Direction(-1, 0);
-    } else if (userInput == 's') {
-      return new Direction(0, 1);
-    } else if (userInput == 'd') {
-      return new Direction(1, 0);
-    } else {
-      return null;
-    }
-  }
+  private static void startGame(Board board, SnakeHead snakeHead) {
+    board.addGameObject(snakeHead);
+    snakeHead.extend(new SnakeBody(new Coordinate(Constants.STARTING_ROW, Constants.STARTING_COL + 1)));
 
-  public static void printScoreAndBoard(Board board) {
-    System.out.println("Score: " + GameState.getInstance().getScore());
-    board.printBoard();
+    board.generateFruit();
+    board.printScoreAndBoard();
   }
 }

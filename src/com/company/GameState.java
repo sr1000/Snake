@@ -30,4 +30,8 @@ public final class GameState {
   public void setIsGameOver(boolean isGameOver) {
     this.isGameOver = isGameOver;
   }
+
+  public void addScore(int score) {
+    this.score += score;
+  }
 }
